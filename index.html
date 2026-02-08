@@ -1,50 +1,956 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Coming Soon</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialFirst Labs | Ads, Media & Tech Agency</title>
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Red+Hat+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================
+           CSS VARIABLES & RESET
+           ======================== */
+        :root {
+            /* Colors - Dynamic Dark Theme */
+            --bg-body: #020203;        /* Deepest matte black */
+            --bg-surface: #0A0A0E;     /* Slightly lighter for alternate sections */
+            --bg-card: #111116;        /* Surface for cards */
+            --bg-card-hover: #181820;  /* Hover state */
+            
+            --text-main: #FFFFFF;
+            --text-muted: #cfcfcf;
+            
+            /* Brand Colors */
+            --accent-primary: #230DCE; /* Official Blue */
+            --accent-glow: rgba(35, 13, 206, 0.4);
+            --accent-deep: #120560;
+            
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(35, 13, 206, 0.5);
+            
+            /* Typography */
+            --font-main: 'Montserrat', sans-serif;
+            --font-logo: 'Red Hat Display', sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1.5rem;
+            --spacing-md: 3rem;
+            --spacing-lg: 6rem;
+            --spacing-xl: 10rem;
+            
+            /* Transitions */
+            --transition-std: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
 
-    body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #ffffff;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      text-align: center;
-      padding: 40px 60px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    h1 {
-      font-size: 3rem;
-      letter-spacing: 2px;
-    }
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
 
-    p {
-      margin-top: 12px;
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-  </style>
+        /* ========================
+           UTILITIES & TYPOGRAPHY
+           ======================== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        h1, h2, h3, h4 {
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            font-weight: 700;
+            color: white;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 60ch;
+            font-weight: 400;
+        }
+
+        .text-accent {
+            background: linear-gradient(90deg, #5433FF, #FFFFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header {
+            margin-bottom: var(--spacing-lg);
+            border-left: 3px solid var(--accent-primary);
+            padding-left: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            background-color: var(--text-main);
+            color: var(--accent-primary);
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 99px;
+            transition: var(--transition-std);
+            border: 1px solid transparent;
+            font-size: 0.95rem;
+            cursor: pointer;
+            letter-spacing: -0.01em;
+        }
+
+        .btn:hover {
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-main);
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        /* ========================
+           HEADER / NAV
+           ======================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(2, 2, 3, 0.85); /* Matches bg-body */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.25rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo img {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* ========================
+           HERO SECTION
+           ======================== */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            position: relative;
+            overflow: hidden;
+            /* Rich Gradient Background */
+            background: radial-gradient(circle at 85% 15%, #180860 0%, var(--bg-body) 50%);
+        }
+
+        /* Subtle grid pattern overlay */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .tagline {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #8E7FFF;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: rgba(35, 13, 206, 0.2);
+            border: 1px solid rgba(35, 13, 206, 0.3);
+            padding: 8px 16px;
+            border-radius: 99px;
+        }
+
+        /* ========================
+           PROBLEM SECTION
+           ======================== */
+        /* Alternating Background Colors for Depth */
+        .section-pad {
+            padding: var(--spacing-xl) 0;
+        }
+
+        #problem {
+            background-color: var(--bg-surface);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .pain-list {
+            list-style: none;
+        }
+
+        .pain-item {
+            padding-left: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .pain-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 2px;
+            height: 1.5rem;
+            background-color: var(--border-light);
+            transition: var(--transition-std);
+        }
+
+        .pain-item:hover::before {
+            background-color: var(--accent-primary);
+            height: 100%;
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .pain-item h4 {
+            margin-bottom: 0.75rem;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        /* ========================
+           PHILOSOPHY SECTION
+           ======================== */
+        #philosophy {
+            background-color: var(--bg-body);
+            position: relative;
+        }
+        
+        /* Subtle blue glow on the side */
+        #philosophy::before {
+            content: '';
+            position: absolute;
+            left: -100px;
+            top: 20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(35, 13, 206, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .phil-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            transition: var(--transition-std);
+        }
+        
+        .phil-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+        }
+
+        .phil-number {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+            display: block;
+            font-weight: 700;
+        }
+
+        /* ========================
+           SERVICES SECTION
+           ======================== */
+        #services {
+            background-color: var(--bg-surface);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 3rem 2rem;
+            border-radius: 4px;
+            transition: var(--transition-std);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .service-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+            transform: translateY(-2px);
+        }
+
+        .service-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .tech-pill {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            color: #8E7FFF;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ========================
+           PROCESS SECTION
+           ======================== */
+        #process {
+            background-color: var(--bg-body);
+        }
+
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--border-light);
+            margin-left: 1rem;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            padding: 2rem 0 2rem 2rem;
+            position: relative;
+        }
+        
+        .step::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 2rem; 
+            height: 0;
+            width: 1px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+            transition: height 0.4s ease;
+        }
+
+        .step:hover::before {
+            height: 60%;
+        }
+
+        .step-count {
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            padding-top: 4px;
+        }
+
+        /* ========================
+           AUDIENCE SECTION
+           ======================== */
+        #audience {
+            background-color: var(--bg-surface);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+
+        .audience-card h3 {
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .check-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            list-style: none;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .check-list li:last-child {
+            border-bottom: none;
+        }
+
+        .audience-good .check-list li {
+            color: white;
+        }
+
+        .audience-good .check-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        
+        .audience-bad .check-list li::before {
+            content: '×';
+            position: absolute;
+            left: 0;
+            color: #333;
+            font-size: 1.25rem;
+        }
+
+        /* ========================
+           CTA SECTION
+           ======================== */
+        .cta-section {
+            text-align: center;
+            padding: 8rem 0;
+            /* Deep Blue Gradient Background for CTA */
+            background: linear-gradient(180deg, var(--bg-body) 0%, #0A0336 100%);
+            border-top: 1px solid var(--border-light);
+            position: relative;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: radial-gradient(circle, var(--accent-primary) 0%, transparent 80%);
+        }
+
+        /* ========================
+           FOOTER STYLES
+           ======================== */
+        footer {
+            background-color: #000000; /* Distinct pitch black for footer */
+            padding-top: 6rem;
+            padding-bottom: 0; 
+            overflow: hidden;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 4rem;
+            margin-bottom: 5rem;
+        }
+
+        .footer-brand-col {
+            max-width: 400px;
+        }
+
+        .footer-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .footer-copyright {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .footer-social-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-heading {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: row; /* Changed to row for horizontal social links */
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateY(-3px); /* Move up instead of right */
+        }
+
+        .footer-email {
+            display: inline-block;
+            color: var(--accent-bright);
+            margin-top: 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .footer-email:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-big-logo-container {
+            width: 100%;
+            margin-top: 2rem;
+            text-align: center;
+            opacity: 1;
+            line-height: 0; 
+            padding: 0; 
+            /* Subtle blue reflection at bottom */
+            background: radial-gradient(ellipse at bottom, rgba(35, 13, 206, 0.15) 0%, transparent 60%);
+        }
+
+        .footer-big-logo {
+            width: 100%;
+            height: auto;
+            max-height: none;
+            object-fit: contain;
+            display: block;
+            margin: 0;
+            opacity: 0.25;
+        }
+
+        /* ========================
+           ANIMATION CLASSES
+           ======================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================
+           MEDIA QUERIES
+           ======================== */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 0.8fr 1.2fr;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            h1 {
+                max-width: 90%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+
+    <!-- Cal.com Element-Click Embed Code -->
+    <script type="text/javascript">
+      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+      Cal("init", "15min", {origin:"https://app.cal.com"});
+      Cal.ns["15min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+    </script>
 </head>
 <body>
-  <div class="container">
-    <h1>Coming Soon</h1>
-    <p>Something amazing is on the way</p>
-  </div>
+
+    <!-- NAV -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <img src="SocialFirstLabs--Logo-White.png" alt="SocialFirst Labs Logo">
+            </a>
+            <a href="#" class="btn" data-cal-link="socialfirstlabs/15min" data-cal-namespace="15min" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' style="padding: 0.75rem 1.5rem; font-size: 0.875rem;">Book Now</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <span class="tagline reveal">Ads, Media & Tech</span>
+            <h1 class="reveal">Dominate the Algorithm.<br><span class="text-accent">Own Your Audience.</span></h1>
+            <p class="reveal">We build high-conversion digital ecosystems that turn rented attention into owned authority. No fluff. Just leverage.</p>
+            <div class="reveal" style="margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="#cta" class="btn">Book to Work With Us</a>
+                <a href="#services" class="btn btn-outline">What-We-Do</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section-pad" id="problem">
+        <div class="container">
+            <div class="grid-2">
+                <div class="reveal">
+                    <h2 style="border-left: 3px solid var(--accent-primary); padding-left: 1.5rem;">The Old Agency Model <br>Is Dead.</h2>
+                </div>
+                <div class="reveal">
+                    <p style="margin-bottom: 3rem;">The market has shifted. Simply "running ads" is a race to the bottom, and basic SEO is being eaten by AI. You need a system, not a service.</p>
+                    <ul class="pain-list">
+                        <li class="pain-item">
+                            <h4>Rising Ad Costs</h4>
+                            <p>CAC is skyrocketing on Meta & Google. You can't outspend bad economics.</p>
+                        </li>
+                        <li class="pain-item">
+                            <h4>SEO Disruption</h4>
+                            <p>Generative AI is changing search intent. 10-blue-links are history.</p>
+                        </li>
+                        <li class="pain-item">
+                            <h4>Fragmented Systems</h4>
+                            <p>Too many tools, disconnected data, and no single source of truth.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="section-pad" id="philosophy">
+        <div class="container">
+            <div class="reveal" style="margin-bottom: 4rem;">
+                <span class="tagline">Our Philosophy</span>
+                <h2>The Growth Triad</h2>
+            </div>
+            <div class="philosophy-grid">
+                <div class="phil-card reveal">
+                    <span class="phil-number">01</span>
+                    <h3>Attention</h3>
+                    <p>Attention is the currency of the internet. We capture it using high-impact creatives and data-driven paid acquisition strategies.</p>
+                </div>
+                <div class="phil-card reveal">
+                    <span class="phil-number">02</span>
+                    <h3>Authority</h3>
+                    <p>Traffic without trust is wasted. We position you as the category king through content engineering and social proof systems.</p>
+                </div>
+                <div class="phil-card reveal">
+                    <span class="phil-number">03</span>
+                    <h3>Leverage</h3>
+                    <p>Scale should not break you. We deploy automation and AI workflows to nurture leads and maximize LTV.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT WE BUILD -->
+    <section class="section-pad" id="services">
+        <div class="container">
+            <div class="reveal" style="margin-bottom: 4rem;">
+                <span class="tagline">Capabilities</span>
+                <h2>What We Build</h2>
+            </div>
+            <div class="services-grid">
+                <!-- Card 1 -->
+                <div class="service-card reveal">
+                    <span class="tech-pill">Conversion</span>
+                    <h3>Websites & Landing Pages</h3>
+                    <p>High-velocity landing pages designed for conversion, not just aesthetics. Fast, secure, and built to sell.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="service-card reveal">
+                    <span class="tech-pill">Acquisition</span>
+                    <h3>Paid Media</h3>
+                    <p>Scientific media buying on Meta, Google, and ChatGPT. We track profit, not just ROAS.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="service-card reveal">
+                    <span class="tech-pill">Creative</span>
+                    <h3>Performance Creative</h3>
+                    <p>Direct response video and static assets that stop the scroll and pre-sell the click.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="service-card reveal">
+                    <span class="tech-pill">Organic</span>
+                    <h3>SEO / AEO / GEO</h3>
+                    <p>Optimization for Search Engines, AI Engines (ChatGPT/Gemini), and Generative Engine Optimization.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="service-card reveal">
+                    <span class="tech-pill">Systems</span>
+                    <h3>AI & Automation</h3>
+                    <p>Custom workflows to automate lead nurturing, reporting, and CRM management.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="service-card reveal">
+                    <span class="tech-pill">Analytics</span>
+                    <h3>Data Infrastructure</h3>
+                    <p>Server-side tracking and attribution modeling to see exactly where your money goes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section-pad" id="process">
+        <div class="container">
+            <div class="reveal" style="margin-bottom: 4rem;">
+                <span class="tagline">The Protocol</span>
+                <h2>How We Work</h2>
+            </div>
+            <div class="process-steps">
+                <div class="step reveal">
+                    <span class="step-count">01</span>
+                    <div>
+                        <h3>Strategy & Audit</h3>
+                        <p>We analyze your current unit economics and identify the bottleneck.</p>
+                    </div>
+                </div>
+                <div class="step reveal">
+                    <span class="step-count">02</span>
+                    <div>
+                        <h3>Design & Build</h3>
+                        <p>We construct the assets: landing pages, ad creatives, and tracking infrastructure.</p>
+                    </div>
+                </div>
+                <div class="step reveal">
+                    <span class="step-count">03</span>
+                    <div>
+                        <h3>Execute & Launch</h3>
+                        <p>We go live with controlled spend to validate assumptions and gather data.</p>
+                    </div>
+                </div>
+                <div class="step reveal">
+                    <span class="step-count">04</span>
+                    <div>
+                        <h3>Optimize</h3>
+                        <p>We cut losers, double down on winners, and iterate on creative.</p>
+                    </div>
+                </div>
+                <div class="step reveal">
+                    <span class="step-count">05</span>
+                    <div>
+                        <h3>Scale</h3>
+                        <p>We increase volume while maintaining efficiency and introducing automation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHO WE WORK WITH -->
+    <section class="section-pad" id="audience">
+        <div class="container">
+            <div class="comparison-grid">
+                <div class="audience-card audience-good reveal">
+                    <h3>Who We Work With</h3>
+                    <ul class="check-list">
+                        <li>Growth-stage companies ready to scale</li>
+                        <li>Founders who understand brand authority</li>
+                        <li>Businesses with product-market fit</li>
+                        <li>Teams willing to test, iterate, and win</li>
+                    </ul>
+                </div>
+                <div class="audience-card audience-bad reveal">
+                    <h3 style="color: var(--text-muted);">Who This Is Not For</h3>
+                    <ul class="check-list">
+                        <li>Companies looking for "cheap" quick fixes</li>
+                        <li>Micromanagers who don't trust the data</li>
+                        <li>Businesses without a validated offer</li>
+                        <li>Those unwilling to invest in creative assets</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section-pad cta-section" id="cta">
+        <div class="container reveal">
+            <h2 style="margin-bottom: 1.5rem;">Ready to Build Leverage?</h2>
+            <p style="margin: 0 auto 3rem auto;">We only partner with 4 new clients per quarter to ensure maximum attention.</p>
+            <a href="#" class="btn" data-cal-link="socialfirstlabs/15min" data-cal-namespace="15min" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' style="padding: 1.25rem 3.5rem; font-size: 1.125rem;">Book Now</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-top">
+            <div class="footer-brand-col">
+                <!-- Small Logo -->
+                <a href="#" class="logo">
+                   <img src="SocialFirstLabs--Logo-White.png" alt="SocialFirst Labs Logo" style="height: 32px;">
+                </a>
+                <p class="footer-desc">
+                    Ads, Media & Tech for the modern era. <br>
+                    Lalitpur, Nepal
+                </p>
+                <div class="footer-copyright">
+                    &copy; 2026 SocialFirst Labs. All rights reserved.
+                </div>
+            </div>
+            
+            <div class="footer-social-col">
+                <h4 class="footer-heading">Connect</h4>
+                <div class="footer-links">
+                    <a href="https://twitter.com/SocialFirstLabs" target="_blank">Twitter/X</a>
+                    <a href="https://www.linkedin.com/company/socialfirstlabs" target="_blank">LinkedIn</a>
+                    <a href="https://www.instagram.com/socialfirstlabs" target="_blank">Instagram</a>
+                    <a href="https://www.tiktok.com/@socialfirstlabs" target="_blank">TikTok</a>
+                </div>
+                <a href="mailto:hi@socialfirstlabs.com" class="footer-email">hi@socialfirstlabs.com</a>
+            </div>
+        </div>
+
+        <!-- BIG FOOTER LOGO -->
+        <div class="footer-big-logo-container">
+            <img src="SocialFirstLabs--Logo-White.png" alt="SocialFirst Labs" class="footer-big-logo">
+        </div>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Intersection Observer for fade-in animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.05
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: Stop observing once revealed
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+
+            // Smooth Scroll for Anchor Links (Backup for Safari/Older browsers)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // Offset for fixed header
+                        const headerOffset = 100;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // Console Signature
+            console.log(
+                "%c SocialFirst Labs %c System Active.",
+                "background: #230DCE; color: #fff; padding: 4px 8px; border-radius: 4px; font-weight: bold;",
+                "color: #230DCE; font-weight: bold;"
+            );
+        });
+    </script>
 </body>
 </html>
