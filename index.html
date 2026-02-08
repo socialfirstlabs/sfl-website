@@ -21,7 +21,7 @@
             --bg-card-hover: #181820;  /* Hover state */
             
             --text-main: #FFFFFF;
-            --text-muted: #cfcfcf;
+            --text-muted: #9494A0;
             
             /* Brand Colors */
             --accent-primary: #230DCE; /* Official Blue */
@@ -36,15 +36,23 @@
             --font-logo: 'Red Hat Display', sans-serif;
             --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             
-            /* Spacing */
+            /* Spacing - Responsive Defaults (Mobile First) */
             --spacing-xs: 0.5rem;
             --spacing-sm: 1.5rem;
-            --spacing-md: 3rem;
-            --spacing-lg: 6rem;
-            --spacing-xl: 10rem;
+            --spacing-md: 2.5rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 6rem; /* Reduced from 10rem for better mobile flow */
             
             /* Transitions */
             --transition-std: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Desktop Overrides */
+        @media (min-width: 768px) {
+            :root {
+                --spacing-lg: 6rem;
+                --spacing-xl: 10rem;
+            }
         }
 
         * {
@@ -61,7 +69,7 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             font-family: var(--font-main);
-            line-height: 1.7;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
             letter-spacing: -0.01em;
@@ -73,39 +81,44 @@
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 1.25rem; /* Slightly reduced side padding for mobile */
         }
 
         h1, h2, h3, h4 {
-            line-height: 1.1;
+            line-height: 1.15;
             letter-spacing: -0.02em;
             font-weight: 700;
             color: white;
         }
 
         h1 {
-            font-size: clamp(3rem, 6vw, 5rem);
-            margin-bottom: 2rem;
+            font-size: clamp(2.5rem, 8vw, 5rem); /* Responsive font scaling */
+            margin-bottom: 1.5rem;
             font-weight: 700;
         }
 
         h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(1.75rem, 5vw, 3rem);
             margin-bottom: 1.5rem;
         }
 
         h3 {
             font-size: 1.25rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             font-weight: 600;
         }
 
         p {
             color: var(--text-muted);
-            font-size: 1.125rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
             max-width: 60ch;
             font-weight: 400;
+            line-height: 1.7;
+        }
+
+        @media (min-width: 768px) {
+            p { font-size: 1.125rem; }
         }
 
         .text-accent {
@@ -117,14 +130,14 @@
         .section-header {
             margin-bottom: var(--spacing-lg);
             border-left: 3px solid var(--accent-primary);
-            padding-left: 2rem;
+            padding-left: 1.5rem;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem 2.5rem;
+            padding: 0.875rem 2rem;
             background-color: var(--text-main);
             color: var(--accent-primary);
             font-weight: 700;
@@ -135,6 +148,7 @@
             font-size: 0.95rem;
             cursor: pointer;
             letter-spacing: -0.01em;
+            white-space: nowrap;
         }
 
         .btn:hover {
@@ -163,11 +177,11 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(2, 2, 3, 0.85); /* Matches bg-body */
+            background: rgba(2, 2, 3, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-light);
-            padding: 1.25rem 0;
+            padding: 1rem 0;
             transition: all 0.3s ease;
         }
 
@@ -175,33 +189,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
 
         .logo {
             display: flex;
             align-items: center;
             text-decoration: none;
+            flex-shrink: 0; /* Prevent logo shrinking */
         }
         
         .logo img {
-            height: 36px;
+            height: 28px; /* Smaller on mobile */
             width: auto;
             object-fit: contain;
             display: block;
+            transition: height 0.3s ease;
+        }
+
+        .nav-btn {
+            padding: 0.6rem 1.25rem;
+            font-size: 0.85rem;
+        }
+
+        @media (min-width: 768px) {
+            .logo img { height: 36px; }
+            .nav-btn { padding: 0.75rem 1.5rem; font-size: 0.875rem; }
+            header { padding: 1.25rem 0; }
         }
 
         /* ========================
            HERO SECTION
            ======================== */
         .hero {
-            min-height: 90vh;
+            min-height: 90vh; /* Allow it to grow if content is tall */
             display: flex;
             align-items: center;
-            padding-top: 100px;
+            padding-top: 100px; /* Space for fixed header */
+            padding-bottom: 3rem;
             position: relative;
             overflow: hidden;
-            /* Rich Gradient Background */
-            background: radial-gradient(circle at 85% 15%, #180860 0%, var(--bg-body) 50%);
+            background: radial-gradient(circle at 85% 15%, #180860 0%, var(--bg-body) 60%);
         }
 
         /* Subtle grid pattern overlay */
@@ -220,6 +248,7 @@
             position: relative;
             z-index: 2;
             max-width: 900px;
+            width: 100%;
         }
 
         .tagline {
@@ -232,14 +261,37 @@
             letter-spacing: 0.1em;
             background: rgba(35, 13, 206, 0.2);
             border: 1px solid rgba(35, 13, 206, 0.3);
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 99px;
+        }
+
+        .hero-buttons {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-direction: column; /* Stack on mobile */
+            width: 100%;
+        }
+
+        .hero-buttons .btn {
+            width: 100%; /* Full width buttons on mobile */
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+
+        @media (min-width: 480px) {
+            .hero-buttons {
+                flex-direction: row;
+                width: auto;
+            }
+            .hero-buttons .btn {
+                width: auto;
+            }
         }
 
         /* ========================
            PROBLEM SECTION
            ======================== */
-        /* Alternating Background Colors for Depth */
         .section-pad {
             padding: var(--spacing-xl) 0;
         }
@@ -251,7 +303,7 @@
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr;
-            gap: var(--spacing-lg);
+            gap: 3rem;
         }
 
         .pain-list {
@@ -259,8 +311,8 @@
         }
 
         .pain-item {
-            padding-left: 2rem;
-            margin-bottom: 3rem;
+            padding-left: 1.5rem;
+            margin-bottom: 2.5rem;
             position: relative;
         }
 
@@ -268,7 +320,7 @@
             content: '';
             position: absolute;
             left: 0;
-            top: 8px;
+            top: 6px;
             width: 2px;
             height: 1.5rem;
             background-color: var(--border-light);
@@ -282,9 +334,9 @@
         }
 
         .pain-item h4 {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             color: white;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
         }
 
         /* ========================
@@ -295,7 +347,6 @@
             position: relative;
         }
         
-        /* Subtle blue glow on the side */
         #philosophy::before {
             content: '';
             position: absolute;
@@ -309,13 +360,13 @@
 
         .philosophy-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
 
         .phil-card {
             background: var(--bg-card);
-            padding: 2.5rem;
+            padding: 2rem;
             border: 1px solid var(--border-light);
             border-radius: 4px;
             transition: var(--transition-std);
@@ -330,7 +381,7 @@
             font-family: var(--font-mono);
             font-size: 0.875rem;
             color: var(--accent-primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             display: block;
             font-weight: 700;
         }
@@ -344,14 +395,14 @@
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
         }
 
         .service-card {
             background: var(--bg-card);
             border: 1px solid var(--border-light);
-            padding: 3rem 2rem;
+            padding: 2.5rem 1.5rem;
             border-radius: 4px;
             transition: var(--transition-std);
             display: flex;
@@ -368,7 +419,7 @@
 
         .service-card h3 {
             font-size: 1.125rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             color: white;
         }
 
@@ -377,7 +428,7 @@
             font-size: 0.7rem;
             font-family: var(--font-mono);
             color: #8E7FFF;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -393,21 +444,23 @@
             display: flex;
             flex-direction: column;
             border-left: 1px solid var(--border-light);
-            margin-left: 1rem;
+            margin-left: 0.5rem; /* Tighter on mobile */
+            padding-left: 0;
         }
 
         .step {
             display: grid;
-            grid-template-columns: 60px 1fr;
-            padding: 2rem 0 2rem 2rem;
+            grid-template-columns: 40px 1fr; /* Smaller number col on mobile */
+            padding: 1.5rem 0 1.5rem 1rem;
             position: relative;
+            gap: 1rem;
         }
         
         .step::before {
             content: '';
             position: absolute;
-            left: -1px;
-            top: 2rem; 
+            left: -1px; /* Align with parent border */
+            top: 1.5rem; 
             height: 0;
             width: 1px;
             background: var(--accent-primary);
@@ -416,14 +469,14 @@
         }
 
         .step:hover::before {
-            height: 60%;
+            height: 80%;
         }
 
         .step-count {
             color: var(--text-muted);
             font-family: var(--font-mono);
             font-size: 0.875rem;
-            padding-top: 4px;
+            padding-top: 2px;
         }
 
         /* ========================
@@ -436,17 +489,17 @@
         .comparison-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 4rem;
+            gap: 3rem;
         }
 
         .audience-card h3 {
-            margin-bottom: 2rem;
-            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.35rem;
         }
 
         .check-list li {
             position: relative;
-            padding-left: 2rem;
+            padding-left: 1.75rem;
             margin-bottom: 1rem;
             list-style: none;
             color: var(--text-muted);
@@ -486,8 +539,7 @@
            ======================== */
         .cta-section {
             text-align: center;
-            padding: 8rem 0;
-            /* Deep Blue Gradient Background for CTA */
+            padding: 6rem 0;
             background: linear-gradient(180deg, var(--bg-body) 0%, #0A0336 100%);
             border-top: 1px solid var(--border-light);
             position: relative;
@@ -508,8 +560,8 @@
            FOOTER STYLES
            ======================== */
         footer {
-            background-color: #000000; /* Distinct pitch black for footer */
-            padding-top: 6rem;
+            background-color: #000000;
+            padding-top: 4rem;
             padding-bottom: 0; 
             overflow: hidden;
             border-top: 1px solid var(--border-light);
@@ -519,8 +571,8 @@
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 4rem;
-            margin-bottom: 5rem;
+            gap: 3rem;
+            margin-bottom: 4rem;
         }
 
         .footer-brand-col {
@@ -528,41 +580,42 @@
         }
 
         .footer-desc {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
             margin-top: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.6;
         }
 
         .footer-copyright {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #555;
         }
 
         .footer-social-col {
             display: flex;
             flex-direction: column;
+            gap: 1.5rem;
         }
 
         .footer-heading {
             color: white;
             font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0; /* Managed by gap */
             font-weight: 600;
         }
 
         .footer-links {
             display: flex;
-            flex-direction: row; /* Changed to row for horizontal social links */
+            flex-direction: row;
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 1.25rem;
         }
 
         .footer-links a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
@@ -570,13 +623,12 @@
 
         .footer-links a:hover {
             color: white;
-            transform: translateY(-3px); /* Move up instead of right */
+            transform: translateY(-3px);
         }
 
         .footer-email {
             display: inline-block;
             color: var(--accent-bright);
-            margin-top: 1.5rem;
             font-weight: 500;
             text-decoration: none;
             font-size: 1rem;
@@ -595,7 +647,6 @@
             opacity: 1;
             line-height: 0; 
             padding: 0; 
-            /* Subtle blue reflection at bottom */
             background: radial-gradient(ellipse at bottom, rgba(35, 13, 206, 0.15) 0%, transparent 60%);
         }
 
@@ -624,35 +675,39 @@
         }
 
         /* ========================
-           MEDIA QUERIES
+           MEDIA QUERIES (TABLET & DESKTOP)
            ======================== */
         @media (min-width: 768px) {
             .grid-2 {
                 grid-template-columns: 0.8fr 1.2fr;
+                gap: 5rem;
             }
             
             .comparison-grid {
                 grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+            }
+
+            .philosophy-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
             
             h1 {
                 max-width: 90%;
             }
+
+            .pain-item { padding-left: 2rem; }
+            .step { grid-template-columns: 60px 1fr; padding-left: 2rem; }
+            .process-steps { margin-left: 1rem; }
         }
 
         @media (min-width: 1024px) {
             .services-grid {
                 grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
             }
         }
     </style>
-
-    <!-- Cal.com Element-Click Embed Code -->
-    <script type="text/javascript">
-      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-      Cal("init", "15min", {origin:"https://app.cal.com"});
-      Cal.ns["15min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-    </script>
 </head>
 <body>
 
@@ -662,7 +717,13 @@
             <a href="#" class="logo">
                 <img src="SocialFirstLabs--Logo-White.png" alt="SocialFirst Labs Logo">
             </a>
-            <a href="#" class="btn" data-cal-link="socialfirstlabs/15min" data-cal-namespace="15min" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' style="padding: 0.75rem 1.5rem; font-size: 0.875rem;">Book Now</a>
+            <!-- Updated Header Button with Cal.com attributes -->
+            <a href="#" class="btn nav-btn" 
+               data-cal-link="socialfirstlabs/15min" 
+               data-cal-namespace="15min" 
+               data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+               Book Now
+            </a>
         </div>
     </header>
 
@@ -672,8 +733,14 @@
             <span class="tagline reveal">Ads, Media & Tech</span>
             <h1 class="reveal">Dominate the Algorithm.<br><span class="text-accent">Own Your Audience.</span></h1>
             <p class="reveal">We build high-conversion digital ecosystems that turn rented attention into owned authority. No fluff. Just leverage.</p>
-            <div class="reveal" style="margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                <a href="#cta" class="btn">Book to Work With Us</a>
+            <div class="reveal hero-buttons">
+                <!-- Updated Hero Button with Cal.com attributes -->
+                <a href="#" class="btn" 
+                   data-cal-link="socialfirstlabs/15min" 
+                   data-cal-namespace="15min" 
+                   data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+                   Book to Work With Us
+                </a>
                 <a href="#services" class="btn btn-outline">What-We-Do</a>
             </div>
         </div>
@@ -710,7 +777,7 @@
     <!-- PHILOSOPHY -->
     <section class="section-pad" id="philosophy">
         <div class="container">
-            <div class="reveal" style="margin-bottom: 4rem;">
+            <div class="reveal" style="margin-bottom: 3rem;">
                 <span class="tagline">Our Philosophy</span>
                 <h2>The Growth Triad</h2>
             </div>
@@ -737,7 +804,7 @@
     <!-- WHAT WE BUILD -->
     <section class="section-pad" id="services">
         <div class="container">
-            <div class="reveal" style="margin-bottom: 4rem;">
+            <div class="reveal" style="margin-bottom: 3rem;">
                 <span class="tagline">Capabilities</span>
                 <h2>What We Build</h2>
             </div>
@@ -785,7 +852,7 @@
     <!-- PROCESS -->
     <section class="section-pad" id="process">
         <div class="container">
-            <div class="reveal" style="margin-bottom: 4rem;">
+            <div class="reveal" style="margin-bottom: 3rem;">
                 <span class="tagline">The Protocol</span>
                 <h2>How We Work</h2>
             </div>
@@ -860,7 +927,13 @@
         <div class="container reveal">
             <h2 style="margin-bottom: 1.5rem;">Ready to Build Leverage?</h2>
             <p style="margin: 0 auto 3rem auto;">We only partner with 4 new clients per quarter to ensure maximum attention.</p>
-            <a href="#" class="btn" data-cal-link="socialfirstlabs/15min" data-cal-namespace="15min" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' style="padding: 1.25rem 3.5rem; font-size: 1.125rem;">Book Now</a>
+            <!-- Updated Final CTA Button with Cal.com attributes -->
+            <a href="#" class="btn" style="padding: 1rem 3.5rem; font-size: 1.125rem;"
+               data-cal-link="socialfirstlabs/15min" 
+               data-cal-namespace="15min" 
+               data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+               Book Now
+            </a>
         </div>
     </section>
 
@@ -869,9 +942,9 @@
         <div class="container footer-top">
             <div class="footer-brand-col">
                 <!-- Small Logo -->
-                <!-- <a href="#" class="logo">
+                <a href="#" class="logo">
                    <img src="SocialFirstLabs--Logo-White.png" alt="SocialFirst Labs Logo" style="height: 32px;">
-                </a> -->
+                </a>
                 <p class="footer-desc">
                     Ads, Media & Tech for the modern era. <br>
                     Lalitpur, Nepal
@@ -899,6 +972,15 @@
         </div>
     </footer>
 
+    <!-- Cal element-click embed code begins -->
+    <script type="text/javascript">
+      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+      Cal("init", "15min", {origin:"https://app.cal.com"});
+
+      Cal.ns["15min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+    </script>
+    <!-- Cal element-click embed code ends -->
+
     <!-- SCRIPT -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -914,8 +996,6 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Optional: Stop observing once revealed
-                        // observer.unobserve(entry.target); 
                     }
                 });
             }, observerOptions);
@@ -931,7 +1011,6 @@
                     const targetElement = document.querySelector(targetId);
                     
                     if (targetElement) {
-                        // Offset for fixed header
                         const headerOffset = 100;
                         const elementPosition = targetElement.getBoundingClientRect().top;
                         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
