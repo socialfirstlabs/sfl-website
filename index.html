@@ -2561,12 +2561,114 @@
       }
 
       // EmailJS Form Handling Logic
+      const CONTACT_RATE_LIMIT_KEY = "contactFormRateLimitV2";
+      const CONTACT_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+      const CONTACT_RATE_LIMIT_MAX_REQUESTS = 3;
+      const contactRateLimitMemoryStore = {};
+
+      function getContactRateLimitStore() {
+        try {
+          const raw = localStorage.getItem(CONTACT_RATE_LIMIT_KEY);
+          if (!raw) return {};
+          const parsed = JSON.parse(raw);
+          return parsed && typeof parsed === "object" ? parsed : {};
+        } catch (error) {
+          console.warn("Rate-limit store read failed:", error);
+          return { ...contactRateLimitMemoryStore };
+        }
+      }
+
+      function saveContactRateLimitStore(store) {
+        Object.keys(contactRateLimitMemoryStore).forEach((key) => {
+          delete contactRateLimitMemoryStore[key];
+        });
+        Object.assign(contactRateLimitMemoryStore, store);
+
+        try {
+          localStorage.setItem(CONTACT_RATE_LIMIT_KEY, JSON.stringify(store));
+        } catch (error) {
+          console.warn("Rate-limit store save failed:", error);
+        }
+      }
+
+      function normalizeRateLimitIdentity(emailValue) {
+        return (emailValue || "").trim().toLowerCase() || "anonymous";
+      }
+
+      function getContactRateLimitIdentities(emailValue) {
+        return ["browser", `email:${normalizeRateLimitIdentity(emailValue)}`];
+      }
+
+      function isContactRateLimited(identities) {
+        const store = getContactRateLimitStore();
+        const now = Date.now();
+        let maxRetryAfterMs = 0;
+        let limited = false;
+
+        identities.forEach((identity) => {
+          const timestamps = (store[identity] || []).filter(
+            (ts) => now - ts < CONTACT_RATE_LIMIT_WINDOW_MS,
+          );
+          store[identity] = timestamps;
+
+          if (timestamps.length >= CONTACT_RATE_LIMIT_MAX_REQUESTS) {
+            limited = true;
+            const oldest = timestamps[0];
+            const retryAfterMs = CONTACT_RATE_LIMIT_WINDOW_MS - (now - oldest);
+            maxRetryAfterMs = Math.max(maxRetryAfterMs, retryAfterMs);
+          }
+        });
+
+        saveContactRateLimitStore(store);
+
+        if (limited) {
+          return { limited: true, retryAfterMs: maxRetryAfterMs };
+        }
+
+        return { limited: false, retryAfterMs: 0 };
+      }
+
+      function recordContactRequest(identities) {
+        const store = getContactRateLimitStore();
+        const now = Date.now();
+        identities.forEach((identity) => {
+          const timestamps = (store[identity] || []).filter(
+            (ts) => now - ts < CONTACT_RATE_LIMIT_WINDOW_MS,
+          );
+          timestamps.push(now);
+          store[identity] = timestamps;
+        });
+        saveContactRateLimitStore(store);
+      }
+
       const messageForm = document.getElementById("contact-form");
       const submitBtn = document.getElementById("btn-submit");
 
       if (messageForm && submitBtn) {
         messageForm.addEventListener("submit", async (e) => {
           e.preventDefault();
+
+          const rateLimitIdentities = getContactRateLimitIdentities(
+            document.getElementById("email")?.value,
+          );
+          const rateLimit = isContactRateLimited(rateLimitIdentities);
+          if (rateLimit.limited) {
+            const retryMinutes = Math.ceil(rateLimit.retryAfterMs / 60000);
+            submitBtn.innerHTML = `Please wait ${retryMinutes} min`;
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = "0.75";
+            submitBtn.style.cursor = "not-allowed";
+            submitBtn.style.pointerEvents = "none";
+
+            setTimeout(() => {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = "Send Message";
+              submitBtn.style.opacity = "1";
+              submitBtn.style.cursor = "pointer";
+              submitBtn.style.pointerEvents = "auto";
+            }, 3000);
+            return;
+          }
 
           const originalText = submitBtn.innerHTML;
 
@@ -2584,6 +2686,7 @@
               "template_rvskevq",
               messageForm,
             );
+            recordContactRequest(rateLimitIdentities);
 
             // Success State
             submitBtn.innerHTML = "Message Sent ✓";
