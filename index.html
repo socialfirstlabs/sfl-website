@@ -1030,6 +1030,15 @@
       }
 
       /* ── ICP ── */
+      .icp {
+        background-color: var(--gray);
+        max-width: none;
+      }
+      .icp-section {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 48px;
+      }
       .icp-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1538,6 +1547,133 @@
         transform: translateY(0);
       }
 
+      /* ── FAQ ── */
+      .faq-header {
+        text-align: center;
+        margin-bottom: 64px;
+      }
+      .faq-header h2 {
+        font-family: var(--font-head);
+        font-size: clamp(36px, 4vw, 56px);
+        font-weight: 800;
+        letter-spacing: -2px;
+        margin-bottom: 16px;
+      }
+      .faq-header p {
+        font-size: 16px;
+        color: var(--muted);
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      .faq-categories {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 48px;
+      }
+      .faq-cat-btn {
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 8px 18px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .faq-cat-btn:hover {
+        border-color: rgba(184, 255, 87, 0.3);
+        color: var(--white);
+      }
+      .faq-cat-btn.active {
+        background: var(--accent);
+        color: var(--black);
+        border-color: var(--accent);
+        font-weight: 700;
+      }
+      .faq-list {
+        max-width: 780px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .faq-item {
+        border-bottom: 1px solid var(--border);
+        overflow: hidden;
+      }
+      .faq-item:first-child {
+        border-top: 1px solid var(--border);
+      }
+      .faq-question {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 24px 0;
+        cursor: pointer;
+        font-family: var(--font-head);
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+        color: var(--white);
+        transition: color 0.2s;
+        -webkit-user-select: none;
+        user-select: none;
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+      }
+      .faq-question:hover {
+        color: var(--accent);
+      }
+      .faq-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: var(--muted);
+        transition: all 0.3s;
+        line-height: 1;
+      }
+      .faq-item.open .faq-icon {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--black);
+        transform: rotate(45deg);
+      }
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s ease,
+          padding 0.3s ease;
+        padding: 0;
+      }
+      .faq-item.open .faq-answer {
+        max-height: 300px;
+        padding-bottom: 24px;
+      }
+      .faq-answer p {
+        font-size: 15px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+      .faq-answer strong {
+        color: var(--white);
+        font-weight: 500;
+      }
+
       @media (max-width: 900px) {
         nav {
           position: fixed;
@@ -1648,6 +1784,9 @@
         }
         .testimonials-section {
           padding: 80px 24px;
+        }
+        .icp-section {
+          padding: 0;
         }
         /* Mobile updates for Contact split section */
         .contact-grid {
@@ -2242,7 +2381,7 @@
     </section>
 
     <!-- ICP -->
-    <section id="icp">
+    <section id="icp" class="icp">
       <div class="icp-section">
         <div class="fade-up">
           <div class="section-tag">The Right Fit</div>
@@ -2294,6 +2433,220 @@
                 <span>✕</span> Agencies that just send you a report and invoice
               </li>
             </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="faq-header fade-up">
+        <div class="section-tag">FAQ</div>
+        <h2>Questions we always get.</h2>
+        <p>
+          Everything you need to know before booking a call — answered honestly.
+        </p>
+      </div>
+
+      <div class="faq-categories fade-up" style="transition-delay: 0.05s">
+        <button class="faq-cat-btn active" onclick="filterFaq('all', this)">
+          All
+        </button>
+        <button class="faq-cat-btn" onclick="filterFaq('process', this)">
+          Process & Timeline
+        </button>
+        <button class="faq-cat-btn" onclick="filterFaq('pricing', this)">
+          Pricing & Money
+        </button>
+        <button class="faq-cat-btn" onclick="filterFaq('working', this)">
+          Working Together
+        </button>
+        <button class="faq-cat-btn" onclick="filterFaq('trust', this)">
+          Results & Trust
+        </button>
+      </div>
+
+      <div class="faq-list fade-up" style="transition-delay: 0.1s">
+        <div class="faq-item" data-cat="process">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            How long does it take to see results?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              <strong>Paid ads</strong> show meaningful data within 2–4 weeks.
+              <strong>SEO and AEO</strong> take 3–6 months for significant
+              ranking shifts. <strong>Landing pages and automations</strong> can
+              show impact within days of launch. We set honest timelines at the
+              start of every engagement so you're never guessing.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="process">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What happens in the free strategy call?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              A focused 20-minute call — no pitch deck, no pressure.
+              <strong>(1)</strong> You tell us your goals.
+              <strong>(2)</strong> We do a live audit of your funnel, ads, or
+              SEO. <strong>(3)</strong> We tell you the 2–3 highest-leverage
+              things we'd do first — whether you work with us or not.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="process">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What's the minimum engagement length?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              All plans require a <strong>minimum of 3 months</strong>. Growth
+              systems take time to build, test, and compound. An agency that
+              promises results in 30 days is selling you a fantasy.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="process">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Do you work with businesses outside Nepal?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Yes — we work with brands across
+              <strong
+                >South Asia, Southeast Asia, the Middle East, and
+                globally</strong
+              >. Our team is based in Kathmandu but we operate fully remotely.
+              Location is never a barrier.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="pricing">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Is ad spend included in your monthly fee?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              <strong>No — ad spend is separate.</strong> Our fee covers
+              strategy, creative, and management. You pay Meta/Google directly
+              from your own account. Launch clients: $500–$1,000/mo recommended.
+              Growth clients: $2,000–$5,000/mo.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="pricing">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Is there a setup or onboarding fee?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              <strong>Growth and Scale plans</strong> have a one-time onboarding
+              fee covering audit, funnel mapping, tracking setup, and initial
+              creative. Always disclosed upfront. The Launch plan has no
+              onboarding fee.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="pricing">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Can I pause or cancel my engagement?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              After your minimum period, cancel with
+              <strong>30 days written notice</strong>. No punishing exit
+              clauses. If something isn't working, we'd rather have an honest
+              conversation than keep your money.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="working">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            How do you communicate and report progress?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              You get a <strong>dedicated Slack channel</strong> from day one
+              plus a structured weekly report every Monday. Strategy calls are
+              monthly (Launch), bi-weekly (Growth), or weekly (Scale). You
+              always know what's happening.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="working">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What do you need from us to get started?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Ad account access (Meta, Google), brand assets, website access,
+              and a primary point of contact.
+              <strong>We handle everything else</strong> — strategy, copy,
+              creative, setup, and execution.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="working">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Do you work with direct competitors simultaneously?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              <strong>No.</strong> We don't take on direct competitors in the
+              same market at the same time. We'll tell you upfront if there's a
+              conflict — we'd rather turn down revenue than compromise your
+              competitive advantage.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="trust">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Are the case study results guaranteed?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              No — anyone who guarantees specific results is lying. What we
+              <strong>do guarantee</strong> is rigorous process, transparent
+              reporting, and honest communication. Results depend on your offer
+              quality, market, and budget.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-cat="trust">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Do you outsource the work?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Strategy, media buying, and account management are
+              <strong>always in-house</strong>. For specific creative production
+              we use a vetted specialist network — but we manage, brief, and QC
+              everything. You deal with us, not strangers.
+            </p>
           </div>
         </div>
       </div>
@@ -2811,6 +3164,29 @@
               submitBtn.style.color = "var(--black)";
             }, 3000);
           }
+        });
+      }
+
+      // FAQ toggle
+      function toggleFaq(btn) {
+        const item = btn.closest(".faq-item");
+        const isOpen = item.classList.contains("open");
+        document
+          .querySelectorAll(".faq-item.open")
+          .forEach((el) => el.classList.remove("open"));
+        if (!isOpen) item.classList.add("open");
+      }
+
+      // FAQ category filter
+      function filterFaq(cat, btn) {
+        document
+          .querySelectorAll(".faq-cat-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".faq-item").forEach((item) => {
+          item.classList.remove("open");
+          item.style.display =
+            cat === "all" || item.dataset.cat === cat ? "" : "none";
         });
       }
     </script>
