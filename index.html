@@ -2336,6 +2336,9 @@
                 name="name"
                 class="form-control"
                 placeholder="Jane Doe"
+                minlength="2"
+                maxlength="80"
+                autocomplete="name"
                 required
               />
             </div>
@@ -2347,6 +2350,8 @@
                 name="email"
                 class="form-control"
                 placeholder="jane@company.com"
+                maxlength="120"
+                autocomplete="email"
                 required
               />
             </div>
@@ -2358,6 +2363,9 @@
                 name="phone"
                 class="form-control"
                 placeholder="+1 (555) 000-0000"
+                minlength="7"
+                maxlength="25"
+                autocomplete="tel"
               />
             </div>
             <div class="form-group">
@@ -2367,6 +2375,8 @@
                 name="message"
                 class="form-control"
                 placeholder="Tell us about your current growth challenges..."
+                minlength="10"
+                maxlength="2000"
                 required
               ></textarea>
             </div>
@@ -2641,12 +2651,88 @@
         saveContactRateLimitStore(store);
       }
 
+      function setFieldValidation(input, validator) {
+        if (!input) return true;
+        const message = validator(input.value);
+        input.setCustomValidity(message);
+        return message === "";
+      }
+
+      function validateContactFormFields(form) {
+        const nameInput = form.querySelector("#name");
+        const emailInput = form.querySelector("#email");
+        const phoneInput = form.querySelector("#phone");
+        const messageInput = form.querySelector("#message");
+
+        const isNameValid = setFieldValidation(nameInput, (value) => {
+          const trimmed = value.trim();
+          if (!trimmed) return "Please enter your full name.";
+          if (trimmed.length < 2) return "Name must be at least 2 characters.";
+          if (!/^[a-zA-Z\s.'-]+$/.test(trimmed)) {
+            return "Name contains invalid characters.";
+          }
+          return "";
+        });
+
+        const isEmailValid = setFieldValidation(emailInput, (value) => {
+          const trimmed = value.trim();
+          if (!trimmed) return "Please enter your email address.";
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+            return "Please enter a valid email address.";
+          }
+          return "";
+        });
+
+        const isPhoneValid = setFieldValidation(phoneInput, (value) => {
+          const trimmed = value.trim();
+          if (!trimmed) return "";
+          if (!/^[0-9+\-().\s]{7,25}$/.test(trimmed)) {
+            return "Please enter a valid phone number.";
+          }
+          const digitsOnly = trimmed.replace(/\D/g, "");
+          if (digitsOnly.length < 7) {
+            return "Phone number must have at least 7 digits.";
+          }
+          return "";
+        });
+
+        const isMessageValid = setFieldValidation(messageInput, (value) => {
+          const trimmed = value.trim();
+          if (!trimmed) return "Please tell us how we can help.";
+          if (trimmed.length < 10) {
+            return "Message must be at least 10 characters.";
+          }
+          return "";
+        });
+
+        if (!isNameValid) return { valid: false, firstInvalidField: nameInput };
+        if (!isEmailValid) return { valid: false, firstInvalidField: emailInput };
+        if (!isPhoneValid) return { valid: false, firstInvalidField: phoneInput };
+        if (!isMessageValid) {
+          return { valid: false, firstInvalidField: messageInput };
+        }
+
+        return { valid: true, firstInvalidField: null };
+      }
+
       const messageForm = document.getElementById("contact-form");
       const submitBtn = document.getElementById("btn-submit");
 
       if (messageForm && submitBtn) {
+        messageForm.querySelectorAll(".form-control").forEach((input) => {
+          input.addEventListener("input", () => {
+            input.setCustomValidity("");
+          });
+        });
+
         messageForm.addEventListener("submit", async (e) => {
           e.preventDefault();
+
+          const validationResult = validateContactFormFields(messageForm);
+          if (!validationResult.valid) {
+            validationResult.firstInvalidField?.reportValidity();
+            return;
+          }
 
           const rateLimitIdentities = getContactRateLimitIdentities(
             document.getElementById("email")?.value,
