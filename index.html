@@ -48,6 +48,9 @@
         line-height: 1.6;
         overflow-x: hidden;
       }
+      div h2 {
+        line-height: 1.05;
+      }
 
       /* ── NAV ── */
       nav {
@@ -495,7 +498,6 @@
         font-size: clamp(36px, 4vw, 56px);
         font-weight: 800;
         letter-spacing: -2px;
-        line-height: 1.05;
         margin-bottom: 24px;
       }
       .problem-left p {
@@ -627,7 +629,6 @@
         font-size: clamp(36px, 4vw, 56px);
         font-weight: 800;
         letter-spacing: -2px;
-        line-height: 1.05;
       }
       .services-grid {
         display: grid;
@@ -972,7 +973,6 @@
         font-size: clamp(36px, 4vw, 56px);
         font-weight: 800;
         letter-spacing: -2px;
-        line-height: 1.05;
       }
       .about-lead p {
         font-size: 16px;
@@ -1345,7 +1345,6 @@
         font-size: clamp(36px, 5vw, 64px);
         font-weight: 800;
         letter-spacing: -2px;
-        line-height: 1.05;
         margin-bottom: 24px;
       }
       .contact-left h2 em {
@@ -2706,8 +2705,10 @@
         });
 
         if (!isNameValid) return { valid: false, firstInvalidField: nameInput };
-        if (!isEmailValid) return { valid: false, firstInvalidField: emailInput };
-        if (!isPhoneValid) return { valid: false, firstInvalidField: phoneInput };
+        if (!isEmailValid)
+          return { valid: false, firstInvalidField: emailInput };
+        if (!isPhoneValid)
+          return { valid: false, firstInvalidField: phoneInput };
         if (!isMessageValid) {
           return { valid: false, firstInvalidField: messageInput };
         }
