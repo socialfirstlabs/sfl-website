@@ -219,6 +219,117 @@
           transparent 80%
         );
       }
+
+      .hero-top {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 40px;
+        align-items: center;
+      }
+      .hero-visual {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        perspective: 1000px;
+      }
+      .art-orb {
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(184, 255, 87, 0.2),
+          transparent 70%
+        );
+        border: 1px solid rgba(184, 255, 87, 0.3);
+        border-radius: 50%;
+        box-shadow:
+          0 0 50px rgba(184, 255, 87, 0.1),
+          inset 0 0 40px rgba(184, 255, 87, 0.1);
+        position: absolute;
+        animation: float 6s ease-in-out infinite;
+      }
+      .art-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transform-style: preserve-3d;
+      }
+      .art-ring.r1 {
+        width: 320px;
+        height: 320px;
+        animation: spinX 20s linear infinite;
+      }
+      .art-ring.r2 {
+        width: 420px;
+        height: 420px;
+        border-color: rgba(87, 196, 255, 0.15);
+        animation: spinY 25s linear infinite reverse;
+      }
+      .art-ring.r3 {
+        width: 520px;
+        height: 520px;
+        border-style: dashed;
+        border-color: rgba(255, 255, 255, 0.05);
+        animation: spinZ 35s linear infinite;
+      }
+      .art-ring::after {
+        content: "";
+        position: absolute;
+        top: -3px;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--accent);
+      }
+      .art-ring.r2::after {
+        background: var(--accent2);
+        box-shadow: 0 0 10px var(--accent2);
+        top: 50%;
+        left: -3px;
+      }
+      .art-ring.r3::after {
+        display: none;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      @keyframes spinX {
+        0% {
+          transform: rotateX(60deg) rotateY(0deg) rotateZ(0deg);
+        }
+        100% {
+          transform: rotateX(60deg) rotateY(360deg) rotateZ(360deg);
+        }
+      }
+      @keyframes spinY {
+        0% {
+          transform: rotateX(45deg) rotateY(45deg) rotateZ(0deg);
+        }
+        100% {
+          transform: rotateX(45deg) rotateY(45deg) rotateZ(360deg);
+        }
+      }
+      @keyframes spinZ {
+        0% {
+          transform: rotateX(75deg) rotateY(-30deg) rotateZ(0deg);
+        }
+        100% {
+          transform: rotateX(75deg) rotateY(-30deg) rotateZ(360deg);
+        }
+      }
+
       .hero-inner {
         padding: 0 48px;
         max-width: 1280px;
@@ -586,7 +697,6 @@
         font-size: clamp(36px, 4vw, 56px);
         font-weight: 800;
         letter-spacing: -2px;
-        line-height: 1.05;
       }
       .process-steps {
         display: flex;
@@ -931,7 +1041,6 @@
         font-weight: 800;
         letter-spacing: -2px;
         margin-bottom: 56px;
-        line-height: 1.05;
       }
       .icp-box {
         background: var(--gray);
@@ -1476,6 +1585,16 @@
         .hero-inner {
           padding: 0 24px;
         }
+        .hero-actions {
+          justify-content: center;
+        }
+        .hero-top {
+          grid-template-columns: 1fr;
+        }
+        .hero-visual {
+          min-height: 260px;
+          margin-top: 20px;
+        }
         h1 {
           font-size: 48px;
           letter-spacing: -2px;
@@ -1579,20 +1698,32 @@
       <div class="hero-bg"></div>
       <div class="hero-grid"></div>
       <div class="hero-inner">
-        <div class="hero-label"><span></span> Digital growth agency ·</div>
-        <h1 class="fade-up">
-          Turn Attention<br />Into <em>Owned</em><br />Authority.
-        </h1>
-        <p class="hero-sub fade-up" style="transition-delay: 0.1s">
-          We build high-conversion digital ecosystems that transform rented
-          attention into compounding authority — no fluff, no guesswork, just
-          results.
-        </p>
-        <div class="hero-actions fade-up" style="transition-delay: 0.2s">
-          <a href="#contact" class="btn-primary">Book a Free Strategy Call →</a>
-          <a href="#work" class="btn-secondary">See our work</a>
+        <div class="hero-top">
+          <div class="hero-content">
+            <div class="hero-label"><span></span> Digital growth agency ·</div>
+            <h1 class="fade-up">
+              Turn Attention<br />Into <em>Owned</em><br />Authority.
+            </h1>
+            <p class="hero-sub fade-up" style="transition-delay: 0.1s">
+              We build high-conversion digital ecosystems that transform rented
+              attention into compounding authority — no fluff, no guesswork,
+              just results.
+            </p>
+            <div class="hero-actions fade-up" style="transition-delay: 0.2s">
+              <a href="#contact" class="btn-primary"
+                >Book a Free Strategy Call →</a
+              >
+              <a href="#work" class="btn-secondary">See our work</a>
+            </div>
+          </div>
+          <div class="hero-visual fade-up" style="transition-delay: 0.3s">
+            <div class="art-orb"></div>
+            <div class="art-ring r1"></div>
+            <div class="art-ring r2"></div>
+            <div class="art-ring r3"></div>
+          </div>
         </div>
-        <div class="hero-stats fade-up" style="transition-delay: 0.3s">
+        <!-- <div class="hero-stats fade-up" style="transition-delay: 0.4s">
           <div>
             <div class="stat-num">3.8<span>x</span></div>
             <div class="stat-label">Average ROAS for clients</div>
@@ -1609,7 +1740,7 @@
             <div class="stat-num">92<span>%</span></div>
             <div class="stat-label">Client retention rate</div>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
 
@@ -1887,9 +2018,9 @@
           <div class="case-header">
             <div class="case-header-top">
               <span class="case-industry">E-commerce · Skincare</span>
-              <a href="/case-study/dtc-brand-scale" class="case-link"
+              <!-- <a href="/case-study/dtc-brand-scale" class="case-link"
                 >Link to study →</a
-              >
+              > -->
             </div>
             <h3>DTC Brand Scales from $0 to $85K/mo in 4 Months</h3>
             <p class="challenge">
@@ -1923,9 +2054,9 @@
           <div class="case-header">
             <div class="case-header-top">
               <span class="case-industry">B2B SaaS · HR Tech</span>
-              <a href="/case-study/saas-pipeline-growth" class="case-link"
+              <!-- <a href="/case-study/saas-pipeline-growth" class="case-link"
                 >Link to study →</a
-              >
+              > -->
             </div>
             <h3>SaaS Company Triples Qualified Pipeline in 90 Days</h3>
             <p class="challenge">
@@ -1958,9 +2089,9 @@
           <div class="case-header">
             <div class="case-header-top">
               <span class="case-industry">Local Service · F&B</span>
-              <a href="/case-study/restaurant-local-search" class="case-link"
+              <!-- <a href="/case-study/restaurant-local-search" class="case-link"
                 >Link to study →</a
-              >
+              > -->
             </div>
             <h3>Restaurant Chain Dominates Local Search Across 3 Cities</h3>
             <p class="challenge">
@@ -1993,9 +2124,9 @@
           <div class="case-header">
             <div class="case-header-top">
               <span class="case-industry">Personal Brand · Coaching</span>
-              <a href="/case-study/coach-audience-building" class="case-link"
+              <!-- <a href="/case-study/coach-audience-building" class="case-link"
                 >Link to study →</a
-              >
+              > -->
             </div>
             <h3>Coach Builds 40K Audience & $22K/mo From Scratch</h3>
             <p class="challenge">
@@ -2313,7 +2444,7 @@
           <div class="footer-copy">
             © 2026 SocialFirst Labs. All rights reserved.
           </div>
-          <div class="footer-copy">Nepal · Working globally</div>
+          <div class="footer-copy">Lalitpur, Nepal · Working globally</div>
         </div>
         <div class="footer-watermark">
           <img
